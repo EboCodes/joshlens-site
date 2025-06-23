@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JoshLens – Book Your Photography</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header class="bg-white border-b shadow-sm">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="joshlens.png" alt="Snapshot Logo" class="h-10 w-auto" />
+        <h1 class="text-2xl font-bold text-purple-700">JoshLens</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-gradient-to-r from-purple-100 via-white to-pink-50 py-20 px-6 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Capture Timeless Moments</h2>
+      <p class="text-lg md:text-xl text-gray-600">Professional photography services for weddings, portraits, events, and more.</p>
+    </div>
+  </section>
+
+  <!-- Booking Form -->
+  <section class="py-16 px-6 bg-white">
+    <div class="max-w-xl mx-auto p-8 border border-gray-200 rounded shadow-sm">
+      <h2 class="text-2xl font-semibold mb-6 text-center text-purple-700">Book a Session</h2>
+      <form id="bookingForm" class="space-y-5">
+        <input type="text" name="name" placeholder="Your Full Name" required class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" />
+        <input type="email" name="email" placeholder="Your Email Address" required class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" />
+        <input type="date" name="date" required class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" />
+        <select name="package" required class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400">
+          <option value="">Select Package</option>
+          <option value="Portrait Session">Portrait Session</option>
+          <option value="Wedding Coverage">Wedding Coverage</option>
+          <option value="Event Photography">Event Photography</option>
+        </select>
+        <button type="submit" class="w-full bg-purple-600 text-white font-semibold py-3 rounded hover:bg-purple-700 transition">Submit Booking</button>
+      </form>
+      <p id="statusMessage" class="text-green-600 mt-4 hidden text-center">Booking submitted successfully!</p>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-6xl mx-auto text-center mb-10">
+      <h2 class="text-3xl font-bold text-gray-800 mb-2">Gallery</h2>
+      <p class="text-gray-600">Explore some of our favorite captured moments.</p>
+    </div>
+    <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-6xl mx-auto">
+      <img src="1.webp" class="rounded-lg shadow hover:scale-105 transition-transform" />
+      <img src="2.webp" class="rounded-lg shadow hover:scale-105 transition-transform" />
+      <img src="3.webp" class="rounded-lg shadow hover:scale-105 transition-transform" />
+      <img src="4.webp" class="rounded-lg shadow hover:scale-105 transition-transform" />
+      <img src="5.webp" class="rounded-lg shadow hover:scale-105 transition-transform" />
+      <img src="6.webp" class="rounded-lg shadow hover:scale-105 transition-transform" />
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-16 px-6 bg-white">
+    <div class="max-w-4xl mx-auto text-center mb-10">
+      <h2 class="text-3xl font-bold text-gray-800 mb-2">What Clients Say</h2>
+      <p class="text-gray-600">Real stories from real people.</p>
+    </div>
+    <div class="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
+      <div class="bg-purple-50 p-6 rounded shadow">
+        <p class="text-gray-800 mb-4">“JoshLens brought our wedding to life in pictures. Absolutely magical!”</p>
+        <p class="font-semibold text-purple-700">– Sarah & Daniel</p>
+      </div>
+      <div class="bg-purple-50 p-6 rounded shadow">
+        <p class="text-gray-800 mb-4">“Incredible portraits that exceeded my expectations. Super professional.”</p>
+        <p class="font-semibold text-purple-700">– Michael O.</p>
+      </div>
+      <div class="bg-purple-50 p-6 rounded shadow">
+        <p class="text-gray-800 mb-4">“Effortless experience and amazing results. Highly recommend!”</p>
+        <p class="font-semibold text-purple-700">– Linda A.</p>
+      </div>
+      <div class="bg-purple-50 p-6 rounded shadow">
+        <p class="text-gray-800 mb-4">“I’ve never looked this good. Thank you for the beautiful photos!”</p>
+        <p class="font-semibold text-purple-700">– Tony B.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 text-center text-sm text-gray-600 py-6">
+    &copy; 2025 JoshLens Photography. All rights reserved.
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = {
+        name: form.name.value,
+        email: form.email.value,
+        date: form.date.value,
+        package: form.package.value
+      };
+      const res = await fetch('http://localhost:5000/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      if (res.ok) {
+        document.getElementById('statusMessage').classList.remove('hidden');
+        form.reset();
+      } else {
+        alert("Something went wrong while submitting your booking.");
+      }
+    });
+  </script>
+
+</body>
+</html>

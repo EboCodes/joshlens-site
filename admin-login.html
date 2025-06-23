@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen flex items-center justify-center bg-gray-100">
+
+  <form id="loginForm" class="bg-white p-8 rounded shadow-md max-w-sm w-full space-y-4">
+    <h2 class="text-xl font-semibold text-gray-800">Admin Login</h2>
+    <input type="password" name="password" placeholder="Enter password" required class="w-full px-4 py-2 border rounded" />
+    <button type="submit" class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700">Login</button>
+    <p id="error" class="text-red-500 text-sm hidden">Invalid password</p>
+  </form>
+ <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const password = form.password.value;
+
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+        credentials: 'include'  // ✅ Required to store session cookie
+      });
+
+      if (res.ok) {
+        // ✅ Success – go to admin page
+        location.href = 'admin.html';
+      } else {
+        // ❌ Show error message
+        document.getElementById('error').classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
