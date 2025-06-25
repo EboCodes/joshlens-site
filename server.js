@@ -22,12 +22,10 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// ✅ Serve static files from /public
-app.use(express.static(path.join(__dirname, '../public')));
 
 // ✅ Routes
-const bookingRoutes = require('./routes/booking');
-const authRoutes = require('./routes/auth');
+const bookingRoutes = require('./booking');
+const authRoutes = require('./auth');
 
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/auth', authRoutes);
